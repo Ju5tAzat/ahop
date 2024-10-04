@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналог Лалафо в стиле Wildberries</title>
+    <link rel="stylesheet" href="da.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    margin: 20px 0;
+}
+
+.search-bar input[type="text"] {
+    width: 300px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background: #f0f0f0;
+    font-size: 16px;
+    transition: width 0.4s ease, background 0.4s ease;
+    outline: none;
+}
+
+.search-bar input[type="text"]:focus {
+    width: 350px; /* Expands when focused */
+    background: #ffffff; /* Changes background on focus */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    background: #007BFF; /* Button color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background 0.3s ease;
+}
+
+.search-bar button:hover {
+    background: #0056b3; /* Darker shade on hover */
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Лалафо</h1>
+            <form class="search-bar" id="searchForm">
+                <input type="text" id="searchInput" placeholder="Поиск по товарам...">
+                <button type="submit">Поиск</button>
+            </form>            
+        </div>
+    </header>
+
+    <main>
+        <div class="categories">
+            <h2>Категории</h2>
+            <ul>
+                <li onclick="showTab('tech')">Техника</li>
+                <li onclick="showTab('furniture')">Мебель</li>
+                <li onclick="showTab('clothing')">Одежда</li>
+                <li onclick="showTab('transport')">Транспорт</li>
+                <li onclick="showTab('realestate')">Недвижимость</li>
+            </ul>
+        </div>
+
+        <section class="listings">
+            <h2>Популярные товары</h2>
+
+            <div id="tech" class="tab-content">
+                <div class="listing" onclick="openModal('Смартфон', 'Описание смартфона', '50000₽')">
+                    <img src="https://via.placeholder.com/300x200" alt="Смартфон">
+                    <div class="listing-info">
+                        <h3>Смартфон</h3>
+                        <p class="price">50000₽</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="furniture" class="tab-content" style="display:none;">
+                <div class="listing" onclick="openModal('Диван', 'Описание дивана', '15000₽')">
+                    <img src="https://via.placeholder.com/300x200" alt="Диван">
+                    <div class="listing-info">
+                        <h3>Диван</h3>
+                        <p class="price">15000₽</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="clothing" class="tab-content" style="display:none;">
+                <div class="listing" onclick="openModal('Куртка', 'Описание куртки', '5000₽')">
+                    <img src="https://via.placeholder.com/300x200" alt="Куртка">
+                    <div class="listing-info">
+                        <h3>Куртка</h3>
+                        <p class="price">5000₽</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="transport" class="tab-content" style="display:none;">
+                <div class="listing" onclick="openModal('Автомобиль', 'Описание автомобиля', '300000₽')">
+                    <img src="https://via.placeholder.com/300x200" alt="Автомобиль">
+                    <div class="listing-info">
+                        <h3>Автомобиль</h3>
+                        <p class="price">300000₽</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="realestate" class="tab-content" style="display:none;">
+                <div class="listing" onclick="openModal('Квартира', 'Описание квартиры', '5000000₽')">
+                    <img src="https://via.placeholder.com/300x200" alt="Квартира">
+                    <div class="listing-info">
+                        <h3>Квартира</h3>
+                        <p class="price">5000000₽</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Название товара</h2>
+            <p id="modalDescription">Описание товара</p>
+            <p id="modalPrice" class="price">5000₽</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Аналог Лалафо в стиле Wildberries. Все права защищены.</p>
+    </footer>
+
+    <script>
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.getElementById(tabId).style.display = 'block';
+        }
+
+        function openModal(title, description, price) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
